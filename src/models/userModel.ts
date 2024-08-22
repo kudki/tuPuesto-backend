@@ -47,7 +47,19 @@ export const getUsuariosByEmail = async (rut : string) : Promise<any[]>=> {
 
 }
 
-export const InsertUsuario = (dbInsertObj : any) => {
+export const InsertUsuario = async (dbInsertObj : any) : Promise<number> => {
+
+  let result : any = 0
+
+  const {
+    rut,
+    neg_id,
+    nombre,
+    per_id,
+    correo,
+    desc,
+    pwd,
+   } = dbInsertObj
     
     const qry = 
     `--sql
@@ -70,32 +82,75 @@ export const InsertUsuario = (dbInsertObj : any) => {
     )
     `
 
+    try {
+      const conn : Pool = await getPoolConn();
+      result = await conn.query(qry, [rut, neg_id, nombre, per_id, correo, desc, pwd,])
+    } catch (e : any) {
+      console.log(e.message)
+    }
+  
+    return result.rowCount ? result.rowCount : 0;
+
 }
 
-export const updateUsuario = () => {
+export const updateUsuario = async (updateObj : any) => {
+
+  let result : any = 0
+
+  const {
+    rut,
+    neg_id,
+    nombre,
+    per_id,
+    correo,
+    desc,
+    pwd,
+    id
+  } = updateObj
 
     const qry = 
     `--sql
     UPDATE tupuestoprod_schema.usuarios
     SET usr_rut    = $1,
-      usr_neg_id = $2,
-      usr_nombre = $3,
-      usr_per_id = $4,
-      usr_correo = $5,
-      usr_desc   = $6,
-      usr_pwd    = $7
+        usr_neg_id = $2,
+        usr_nombre = $3,
+        usr_per_id = $4,
+        usr_correo = $5,
+        usr_desc   = $6,
+        usr_pwd    = $7
     WHERE usr_id = $8;
     `
 
+    try {
+      const conn : Pool = await getPoolConn();
+      result = await conn.query(qry, [    rut, neg_id, nombre, per_id, correo, desc, pwd, id])
+    } catch (e : any) {
+      console.log(e.message)
+    }
+
+    return result.rowCount ? result.rowCount : 0;
+
 }
 
-export const deleteUsuario = () => {
+export const deleteUsuario = async (id : number) => {
+
+  let result : any = 0
+
 
     const qry = 
     `--sql
     DELETE FROM tupuestoprod_schema.usuarios
     WHERE usr_id = $1;
     `
+
+    try {
+      const conn : Pool = await getPoolConn();
+      result = await conn.query(qry, [id])
+    } catch (e : any) {
+      console.log(e.message)
+    }
+  
+    return result.rowCount ? result.rowCount : 0;
 
 }
 
