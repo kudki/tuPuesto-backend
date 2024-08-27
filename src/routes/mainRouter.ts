@@ -3,6 +3,7 @@ import { body, header, validationResult } from "express-validator"
 import { chainCheck } from "../middlewares/validationMiddleware";
 import * as loginController from "../controllers/loginController"
 import * as userController from "../controllers/userController"
+import * as colaController from "../controllers/colaController"
 
 export const mainRouter = express()
 
@@ -14,6 +15,8 @@ mainRouter.post("/login",
   ],
   loginController.login
 )
+
+//USUARIO
 
 mainRouter.get("/usuario", 
   [
@@ -48,4 +51,40 @@ mainRouter.delete("/usuario/:id",
 
   ],
   userController.delUser
+)
+
+//COLA
+mainRouter.get("/cola", 
+  [
+
+  ],
+  colaController.getCola
+)
+
+mainRouter.get("/cola/:id", 
+  [
+
+  ],
+  colaController.getCola
+)
+
+mainRouter.post("/cola", 
+  [
+
+  ],
+  colaController.postCola
+)
+
+mainRouter.put("/cola", 
+  [
+
+  ],
+  colaController.putCola
+)
+
+mainRouter.delete("/cola/:id", 
+  [
+
+  ],
+  colaController.delCola
 )

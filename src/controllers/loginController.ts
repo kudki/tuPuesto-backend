@@ -3,9 +3,6 @@ import * as userModel from "../models/userModel"
 import * as bcryptUtils from "../utils/bcryptUtils"
 import * as jwtUtils from "../utils/jwtUtils"
 
-
-
-
 export const decryptAuth = (authorization : string) =>  {
   const b64Str = authorization.split(" ")[1];
   const decryptResult = Buffer.from(b64Str, 'base64').toString('utf8');
