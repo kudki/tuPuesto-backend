@@ -24,7 +24,7 @@ export const getUsuarios = async (id : number | null) : Promise<any[]>=> {
 
 }
 
-export const getUsuariosByEmail = async (rut : string) : Promise<any[]>=> {
+export const getUsuariosByEmail = async (email : string) : Promise<any[]>=> {
     
   let result : any = []
 
@@ -38,7 +38,7 @@ export const getUsuariosByEmail = async (rut : string) : Promise<any[]>=> {
 
   try {
     const conn : Pool = await getPoolConn();
-    result = await conn.query(qry, [rut])
+    result = await conn.query(qry, [email])
   } catch (e : any) {
     console.log(e.message)
   }

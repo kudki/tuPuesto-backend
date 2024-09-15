@@ -21,6 +21,10 @@ export const login = async (req : Request, res : Response) => {
   //const currentUser : User = jsonModel.selectUserById(parseInt(id));
   const [currentUser] : User[] = await userModel.getUsuariosByEmail(user);
 
+  if (!currentUser) {
+    return res.sendStatus(403)
+  }
+
   const validPwd = await bcryptUtils.verifyPassword(pass, currentUser.usr_pwd)
 
   if (!validPwd) {

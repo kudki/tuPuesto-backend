@@ -1,9 +1,11 @@
 import express, { Request, Response, NextFunction } from "express";
 import { body, header, validationResult } from "express-validator"
 import { chainCheck } from "../middlewares/validationMiddleware";
-import * as loginController from "../controllers/loginController"
-import * as userController from "../controllers/userController"
-import * as colaController from "../controllers/colaController"
+import * as loginController from "../controllers/loginController";
+import * as userController from "../controllers/userController";
+import * as colaController from "../controllers/colaController";
+import * as perfilController from "../controllers/perfilController";
+import * as negocioController from "../controllers/negocioController";
 
 export const mainRouter = express()
 
@@ -87,4 +89,76 @@ mainRouter.delete("/cola/:id",
 
   ],
   colaController.delCola
+)
+
+//NEGOCIO
+mainRouter.get("/negocio", 
+  [
+
+  ],
+  negocioController.getNegocio
+)
+
+mainRouter.get("/negocio/:id", 
+  [
+
+  ],
+  negocioController.getNegocio
+)
+
+mainRouter.post("/negocio", 
+  [
+
+  ],
+  negocioController.postNegocio
+)
+
+mainRouter.put("/negocio", 
+  [
+
+  ],
+  negocioController.putNegocio
+)
+
+mainRouter.delete("/negocio/:id", 
+  [
+
+  ],
+  negocioController.delNegocio
+)
+
+//PERFIL
+mainRouter.get("/perfil", 
+  [
+
+  ],
+  perfilController.getPerfil
+)
+
+mainRouter.get("/perfil/:id", 
+  [
+
+  ],
+  perfilController.getPerfil
+)
+
+mainRouter.post("/perfil", 
+  [
+
+  ],
+  perfilController.postPerfil
+)
+
+mainRouter.put("/perfil", 
+  [
+
+  ],
+  perfilController.putPerfil
+)
+
+mainRouter.delete("/perfil/:id", 
+  [
+
+  ],
+  perfilController.delPerfil
 )

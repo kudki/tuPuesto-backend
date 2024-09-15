@@ -1,15 +1,16 @@
 import { Request, Response } from "express";
 import * as bcryptUtils from "../utils/bcryptUtils";
+import * as negocioModel from "../models/negocioModel"
 
-export const getdNegocio = async (req: Request, res: Response) => {
+export const getNegocio = async (req: Request, res: Response) => {
   try {
 
     let id = req.params["id"] ? +(req.params["id"]) : null
 
-    const result : any[] = []
+    const result : any[] = await negocioModel.selectNegocio(id)
 
-    if (result.length === 0) return res.status(200).send({ status: true, message: "Sin registros de usuario/s", data : result })
-    else return res.status(200).send({ status: true, message: "Usuario/s encontrado/s", data : result })
+    if (result.length === 0) return res.status(200).send({ status: true, message: "Sin registro/s", data : result })
+    else return res.status(200).send({ status: true, message: "Registro/s encontrado/s", data : result })
 
   } catch (e: any) {
     console.error(e);
@@ -20,17 +21,19 @@ export const getdNegocio = async (req: Request, res: Response) => {
   }
 }
 
-export const postdNegocio = async (req: Request, res: Response) => {
+export const postNegocio = async (req: Request, res: Response) => {
   try {
 
-    const body = req.body;
+    const {rut, nombre, desc} = req.body;
 
-    body.pwd = await bcryptUtils.hashPassword(body.pwd, 10)
+    const result : any = await negocioModel.InsertNegocio({
+      rut,
+      nombre,
+      desc
+    })
 
-    const result : any = []
-
-    if (result === 1) return res.status(200).send({ status: true, message: "Usuario creado" })
-    else return res.status(200).send({ status: false, message: "Error al crear usuario" })
+    if (result === 1) return res.status(200).send({ status: true, message: "Registro creado" })
+    else return res.status(200).send({ status: false, message: "Error al crear registro" })
 
 
   } catch (e: any) {
@@ -42,17 +45,25 @@ export const postdNegocio = async (req: Request, res: Response) => {
   }
 }
 
-export const putdNegocio = async (req: Request, res: Response) => {
+export const putNegocio = async (req: Request, res: Response) => {
   try {
 
-    const body = req.body;
+    const {
+      id,
+      rut,
+      nombre,
+      desc 
+    } = req.body;
 
-    body.pwd = await bcryptUtils.hashPassword(body.pwd, 10);
+    const result : any = await negocioModel.updateNegocio({
+      id,
+      rut,
+      nombre,
+      desc
+    })
 
-    const result : any = []
-
-    if (result === 1) return res.status(200).send({ status: true, message: "Usuario actualizado" })
-    else return res.status(200).send({ status: false, message: "Error al actualizar usuario" })
+    if (result === 1) return res.status(200).send({ status: true, message: "Registro actualizado" })
+    else return res.status(200).send({ status: false, message: "Error al actualizar registro" })
 
 
   } catch (e: any) {
@@ -64,15 +75,15 @@ export const putdNegocio = async (req: Request, res: Response) => {
   }
 }
 
-export const deldNegocio = async (req: Request, res: Response) => {
+export const delNegocio = async (req: Request, res: Response) => {
   try {
 
     const id = +(req.params["id"]);
 
-    const result : any = []
+    const result : any = await negocioModel.deleteNegocio(id)
 
-    if (result === 1) return res.status(200).send({ status: true, message: "Usuario borrado" })
-    else return res.status(200).send({ status: false, message: "Error al borrar usuario" })
+    if (result === 1) return res.status(200).send({ status: true, message: "Registro borrado" })
+    else return res.status(200).send({ status: false, message: "Error al borrar registro" })
 
   } catch (e: any) {
     console.error(e);

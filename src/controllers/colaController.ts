@@ -9,8 +9,8 @@ export const getCola = async (req: Request, res: Response) => {
 
     const result : any[] = await colaModel.selectCola(id)
 
-    if (result.length === 0) return res.status(200).send({ status: true, message: "Sin registros de usuario/s", data : result })
-    else return res.status(200).send({ status: true, message: "Usuario/s encontrado/s", data : result })
+    if (result.length === 0) return res.status(200).send({ status: true, message: "Sin registros/s", data : result })
+    else return res.status(200).send({ status: true, message: "Registro/s encontrado/s", data : result })
 
   } catch (e: any) {
     console.error(e);
@@ -24,14 +24,24 @@ export const getCola = async (req: Request, res: Response) => {
 export const postCola = async (req: Request, res: Response) => {
   try {
 
-    const body = req.body;
+    const {
+      neg_id,
+      usr_id,
+      correo,
+      fecha,
+      estado 
+    } = req.body;
 
-    body.pwd = await bcryptUtils.hashPassword(body.pwd, 10)
+    const result : any = await colaModel.InsertCola({
+      neg_id,
+      usr_id,
+      correo,
+      fecha,
+      estado 
+    })
 
-    const result : any = []
-
-    if (result === 1) return res.status(200).send({ status: true, message: "Usuario creado" })
-    else return res.status(200).send({ status: false, message: "Error al crear usuario" })
+    if (result === 1) return res.status(200).send({ status: true, message: "Registro creado" })
+    else return res.status(200).send({ status: false, message: "Error al crear registro" })
 
 
   } catch (e: any) {
@@ -46,14 +56,26 @@ export const postCola = async (req: Request, res: Response) => {
 export const putCola = async (req: Request, res: Response) => {
   try {
 
-    const body = req.body;
+    const {
+      neg_id,
+      usr_id,
+      correo,
+      fecha,
+      estado,
+      id
+    } = req.body;
 
-    body.pwd = await bcryptUtils.hashPassword(body.pwd, 10);
+    const result : any = await colaModel.updateCola({
+      neg_id,
+      usr_id,
+      correo,
+      fecha,
+      estado,
+      id
+    })
 
-    const result : any = []
-
-    if (result === 1) return res.status(200).send({ status: true, message: "Usuario actualizado" })
-    else return res.status(200).send({ status: false, message: "Error al actualizar usuario" })
+    if (result === 1) return res.status(200).send({ status: true, message: "Registro actualizado" })
+    else return res.status(200).send({ status: false, message: "Error al actualizar registro" })
 
 
   } catch (e: any) {
@@ -70,10 +92,10 @@ export const delCola = async (req: Request, res: Response) => {
 
     const id = +(req.params["id"]);
 
-    const result : any = []
+    const result : any = await colaModel.deleteCola(id)
 
-    if (result === 1) return res.status(200).send({ status: true, message: "Usuario borrado" })
-    else return res.status(200).send({ status: false, message: "Error al borrar usuario" })
+    if (result === 1) return res.status(200).send({ status: true, message: "Registro borrado" })
+    else return res.status(200).send({ status: false, message: "Error al borrar registro" })
 
   } catch (e: any) {
     console.error(e);

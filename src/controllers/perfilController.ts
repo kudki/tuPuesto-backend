@@ -1,15 +1,16 @@
 import { Request, Response } from "express";
 import * as bcryptUtils from "../utils/bcryptUtils";
+import * as perfilModel from "../models/perfilModel";
 
 export const getPerfil = async (req: Request, res: Response) => {
   try {
 
     let id = req.params["id"] ? +(req.params["id"]) : null
 
-    const result : any[] = []
+    const result : any[] = await perfilModel.selectPerfil(id)
 
-    if (result.length === 0) return res.status(200).send({ status: true, message: "Sin registros de usuario/s", data : result })
-    else return res.status(200).send({ status: true, message: "Usuario/s encontrado/s", data : result })
+    if (result.length === 0) return res.status(200).send({ status: true, message: "Sin registros/s", data : result })
+    else return res.status(200).send({ status: true, message: "Registro/s encontrado/s", data : result })
 
   } catch (e: any) {
     console.error(e);
@@ -23,11 +24,15 @@ export const getPerfil = async (req: Request, res: Response) => {
 export const postPerfil = async (req: Request, res: Response) => {
   try {
 
-    const body = req.body;
+    const {
+      desc,
+      codigo
+    } = req.body;
 
-    body.pwd = await bcryptUtils.hashPassword(body.pwd, 10)
-
-    const result : any = []
+    const result : any = await perfilModel.InsertPerfil({
+      desc,
+      codigo
+    })
 
     if (result === 1) return res.status(200).send({ status: true, message: "Usuario creado" })
     else return res.status(200).send({ status: false, message: "Error al crear usuario" })
@@ -45,11 +50,17 @@ export const postPerfil = async (req: Request, res: Response) => {
 export const putPerfil = async (req: Request, res: Response) => {
   try {
 
-    const body = req.body;
+    const {
+      desc,
+      codigo,
+      id
+    } = req.body;
 
-    body.pwd = await bcryptUtils.hashPassword(body.pwd, 10);
-
-    const result : any = []
+    const result : any = await perfilModel.updatePerfil({
+      desc,
+      codigo,
+      id
+    })
 
     if (result === 1) return res.status(200).send({ status: true, message: "Usuario actualizado" })
     else return res.status(200).send({ status: false, message: "Error al actualizar usuario" })
@@ -69,10 +80,10 @@ export const delPerfil = async (req: Request, res: Response) => {
 
     const id = +(req.params["id"]);
 
-    const result : any = []
+    const result : any = await perfilModel.deletePerfil(id)
 
-    if (result === 1) return res.status(200).send({ status: true, message: "Usuario borrado" })
-    else return res.status(200).send({ status: false, message: "Error al borrar usuario" })
+    if (result === 1) return res.status(200).send({ status: true, message: "Registro borrado" })
+    else return res.status(200).send({ status: false, message: "Error al borrar registro" })
 
   } catch (e: any) {
     console.error(e);

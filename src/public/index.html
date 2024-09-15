@@ -8,10 +8,10 @@
         body {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: start;
             height: 100vh;
-            margin: 0;
-            background-color: #ffffff; /* Color de fondo para visualizar mejor los bordes */
+            margin: 2rem;
+            /*background-color: #ffffff; /* Color de fondo para visualizar mejor los bordes */
         }
         table {
             border-collapse: collapse;
@@ -19,12 +19,12 @@
             max-width: 600px; /* Limita el ancho máximo */
         }
         th, td {
-            border: 1px solid #ddd;
+            /* border: 1px solid #ddd; */
             padding: 8px;
             text-align: center;
         }
         thead, tfoot {
-            background-color: #dddddd;
+            /* background-color: #dddddd; */
         }
     </style>
 </head>
@@ -36,6 +36,9 @@
             </tr>
         </thead>
         <tbody>
+            <tr>
+              <th>Status : OK</th>
+            </tr>
             <tr>
                 <td>Servicio intermediario entre plataforma web y base de datos</td>
             </tr>

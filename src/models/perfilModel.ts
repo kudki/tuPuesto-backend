@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 import { getPoolConn } from "../services/databaseService"
 
-export const selectNegocio = async (id : number | null) : Promise<any[]>=> {
+export const selectPerfil = async (id : number | null) : Promise<any[]>=> {
     
   let result : any = []
 
@@ -9,8 +9,8 @@ export const selectNegocio = async (id : number | null) : Promise<any[]>=> {
   `--sql
   SELECT 
     * 
-  FROM tupuestoprod_schema.negocio
-  WHERE ($1::integer IS NULL OR neg_id = $2::integer);
+  FROM tupuestoprod_schema.perfil
+  WHERE ($1::integer IS NULL OR per_id = $2::integer);
   `
 
   try {
@@ -24,32 +24,29 @@ export const selectNegocio = async (id : number | null) : Promise<any[]>=> {
 
 }
 
-export const InsertNegocio = async (dbInsertObj : any) : Promise<number> => {
+export const InsertPerfil = async (dbInsertObj : any) : Promise<number> => {
 
   let result : any = 0
 
   const {
-    rut,
-    nombre,
-    desc 
+    desc,
+    codigo
    } = dbInsertObj
     
     const qry = 
     `--sql
-    INSERT INTO tupuestoprod_schema.negocio (
-      neg_rut,
-      neg_nombre,
-      neg_desc  -- Cambié cola_restado a cola_estado para que coincida con la columna en el UPDATE
+    INSERT INTO tupuestoprod_schema.perfil (
+      per_desc,
+      per_codigo
     ) VALUES (
       $1,
-      $2,
-      $3
+      $2
     );
     `
 
     try {
       const conn : Pool = await getPoolConn();
-      result = await conn.query(qry, [ rut, nombre, desc ])
+      result = await conn.query(qry, [desc, codigo])
     } catch (e : any) {
       console.log(e.message)
     }
@@ -58,29 +55,27 @@ export const InsertNegocio = async (dbInsertObj : any) : Promise<number> => {
 
 }
 
-export const updateNegocio = async (updateObj : any) => {
+export const updatePerfil = async (updateObj : any) => {
 
   let result : any = 0
 
   const {
-    id,
-    rut,
-    nombre,
-    desc 
+    desc,
+    codigo,
+    id
   } = updateObj
 
     const qry = 
     `--sql
-    UPDATE tupuestoprod_schema.negocio
-    SET neg_rut = $1,
-        neg_nombre = $2,
-        neg_desc = $3
-    WHERE neg_id = $4;
+    UPDATE tupuestoprod_schema.perfil
+    SET per_desc    = $1,
+        per_codigo  = $2
+    WHERE per_id = $3;
     `
 
     try {
       const conn : Pool = await getPoolConn();
-      result = await conn.query(qry, [ rut, nombre, desc, id ])
+      result = await conn.query(qry, [desc, codigo, id])
     } catch (e : any) {
       console.log(e.message)
     }
@@ -89,15 +84,15 @@ export const updateNegocio = async (updateObj : any) => {
 
 }
 
-export const deleteNegocio = async (id : number) => {
+export const deletePerfil = async (id : number) => {
 
   let result : any = 0
 
 
     const qry = 
     `--sql
-    DELETE FROM tupuestoprod_schema.negocio
-    WHERE neg_id = $1;
+    DELETE FROM tupuestoprod_schema.perfil
+    WHERE per_id = $1;
     `
 
     try {
