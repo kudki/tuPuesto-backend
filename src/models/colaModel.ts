@@ -24,6 +24,32 @@ export const selectCola = async (id : number | null) : Promise<any[]>=> {
 
 }
 
+export const selectLastCola = async () : Promise<any[]>=> {
+    
+  let result : any = []
+
+  const qry = 
+  `--sql
+  SELECT 
+    * 
+  FROM tupuestoprod_schema.cola
+  WHERE 
+  
+  
+  ($1::integer IS NULL OR cola_id = $2::integer);
+  `
+
+  try {
+    const conn : Pool = await getPoolConn();
+    result = await conn.query(qry)
+  } catch (e : any) {
+    console.log(e.message)
+  }
+
+  return result.rows ? result.rows : [];
+
+}
+
 export const InsertCola = async (dbInsertObj : any) : Promise<number> => {
 
   let result : any = 0

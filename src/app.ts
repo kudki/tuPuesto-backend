@@ -2,6 +2,7 @@ import express, { Express } from "express"
 import bodyParser from "body-parser"
 import cors from "cors"
 import path from "node:path"
+import { htmlTemplate } from "./public/htmlTemplate"
 
 import * as config from "./config"
 import { mainRouter } from "./routes/mainRouter"
@@ -26,7 +27,7 @@ const app = async () => {
   app.use(bodyParser.json())
 
   //ROUTES
-  app.get('/', (req, res) => res.sendFile(path.join('src', 'public', "index.html")));
+  app.get('/', (req, res) => res.send(htmlTemplate));
   app.use(mainRouter)
 
   app.listen(config.PORT, () => {
