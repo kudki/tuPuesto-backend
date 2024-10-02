@@ -27,6 +27,7 @@ export const postCola = async (req: Request, res: Response) => {
     const {
       neg_id,
       usr_id,
+      usr_nombre,
       correo,
       fecha,
       estado 
@@ -35,6 +36,7 @@ export const postCola = async (req: Request, res: Response) => {
     const result : any = await colaModel.InsertCola({
       neg_id,
       usr_id,
+      usr_nombre,
       correo,
       fecha,
       estado 

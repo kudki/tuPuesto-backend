@@ -57,6 +57,7 @@ export const InsertCola = async (dbInsertObj : any) : Promise<number> => {
   const {
     neg_id,
     usr_id,
+    usr_nombre,
     correo,
     fecha,
     estado 
@@ -67,6 +68,7 @@ export const InsertCola = async (dbInsertObj : any) : Promise<number> => {
     INSERT INTO tupuestoprod_schema.cola (
       cola_neg_id,
       cola_usr_id,
+      cola_usr_nombre,
       cola_correo,
       cola_fecha,
       cola_estado  -- Cambié cola_restado a cola_estado para que coincida con la columna en el UPDATE
@@ -75,13 +77,14 @@ export const InsertCola = async (dbInsertObj : any) : Promise<number> => {
       $2,
       $3,
       $4,
+      NOW(),
       $5
     );
     `
 
     try {
       const conn : Pool = await getPoolConn();
-      result = await conn.query(qry, [neg_id, usr_id, correo, fecha, estado])
+      result = await conn.query(qry, [neg_id, usr_id, usr_nombre, correo, estado])
     } catch (e : any) {
       console.log(e.message)
     }
@@ -97,6 +100,7 @@ export const updateCola = async (updateObj : any) => {
   const {
     neg_id,
     usr_id,
+    usr_nombre,
     correo,
     fecha,
     estado,
@@ -108,15 +112,16 @@ export const updateCola = async (updateObj : any) => {
     UPDATE tupuestoprod_schema.cola
     SET cola_neg_id = $1,
         cola_usr_id = $2,
-        cola_correo = $3,
-        cola_fecha  = $4,
-        cola_estado = $5
-    WHERE cola_id = $6;
+        cola_usr_nombre = $3,
+        cola_correo = $4,
+        cola_fecha  = $5,
+        cola_estado = $6
+    WHERE cola_id = $7;
     `
 
     try {
       const conn : Pool = await getPoolConn();
-      result = await conn.query(qry, [neg_id, usr_id, correo, fecha, estado, id])
+      result = await conn.query(qry, [neg_id, usr_id, usr_nombre, correo, fecha, estado, id])
     } catch (e : any) {
       console.log(e.message)
     }
