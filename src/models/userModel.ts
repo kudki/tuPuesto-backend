@@ -47,7 +47,9 @@ export const getUsuarioPuesto = async (id : string | null) : Promise<any[]>=> {
   )
   SELECT *
   FROM cola_espera
-  WHERE cola_usr_id = $1;
+  WHERE cola_usr_id = $1
+  ORDER BY cola_fecha DESC
+  LIMIT 1;
   `
 
   try {

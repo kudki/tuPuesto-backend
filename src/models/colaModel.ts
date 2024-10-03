@@ -79,15 +79,17 @@ export const InsertCola = async (dbInsertObj : any) : Promise<number> => {
       cola_usr_nombre,
       cola_correo,
       cola_fecha,
-      cola_estado  -- Cambié cola_restado a cola_estado para que coincida con la columna en el UPDATE
-    ) VALUES (
+      cola_estado
+    ) 
+    VALUES (
       $1,
       $2,
       $3,
       $4,
       NOW(),
       $5
-    );
+    )
+    RETURNING cola_id;
     `
 
     try {
@@ -97,7 +99,8 @@ export const InsertCola = async (dbInsertObj : any) : Promise<number> => {
       console.log(e.message)
     }
   
-    return result.rowCount ? result.rowCount : 0;
+    return result.rows.length > 0 && result.rows[0].cola_id ? result.rows[0].cola_id : 0;
+
 
 }
 
