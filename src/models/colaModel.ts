@@ -24,19 +24,27 @@ export const selectCola = async (id : number | null) : Promise<any[]>=> {
 
 }
 
-export const selectLastCola = async () : Promise<any[]>=> {
+export const selectEnEspera = async () : Promise<any[]>=> {
     
   let result : any = []
 
   const qry = 
   `--sql
   SELECT 
-    * 
-  FROM tupuestoprod_schema.cola
+    ROW_NUMBER() OVER (ORDER BY cola_fecha ASC) AS cola_numero,
+    cola_id,
+    cola_neg_id,
+    cola_usr_id,
+    cola_correo,
+    cola_estado,
+    cola_fecha,
+    cola_usr_nombre
+  FROM 
+    tupuestoprod_schema.cola
   WHERE 
-  
-  
-  ($1::integer IS NULL OR cola_id = $2::integer);
+    cola_estado = 'ESPERA'
+  ORDER BY 
+    cola_fecha ASC;
   `
 
   try {

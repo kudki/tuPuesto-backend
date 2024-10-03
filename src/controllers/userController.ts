@@ -21,6 +21,25 @@ export const getUser = async (req: Request, res: Response) => {
   }
 }
 
+export const getUserPuesto = async (req: Request, res: Response) => {
+  try {
+
+    let id = req.params["id"] ? req.params["id"] : null
+
+    const result = await userModel.getUsuarioPuesto(id)
+
+    if (result.length === 0) return res.status(200).send({ status: true, message: "Sin registros de usuario/s", data : result })
+    else return res.status(200).send({ status: true, message: "Usuario/s encontrado/s", data : result })
+
+  } catch (e: any) {
+    console.error(e);
+    return res.status(500).send({
+      status: false,
+      message: "Error Interno"
+    })
+  }
+}
+
 export const postUser = async (req: Request, res: Response) => {
   try {
 

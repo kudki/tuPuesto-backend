@@ -21,6 +21,24 @@ export const getCola = async (req: Request, res: Response) => {
   }
 }
 
+export const getEnEspera = async (req: Request, res: Response) => {
+  try {
+
+
+    const result : any[] = await colaModel.selectEnEspera()
+
+    if (result.length === 0) return res.status(200).send({ status: true, message: "Sin registros/s", data : result })
+    else return res.status(200).send({ status: true, message: "Registro/s encontrado/s", data : result })
+
+  } catch (e: any) {
+    console.error(e);
+    return res.status(500).send({
+      status: false,
+      message: "Error Interno"
+    })
+  }
+}
+
 export const postCola = async (req: Request, res: Response) => {
   try {
 

@@ -24,6 +24,43 @@ export const getUsuarios = async (id : number | null) : Promise<any[]>=> {
 
 }
 
+export const getUsuarioPuesto = async (id : string | null) : Promise<any[]>=> {
+    
+  let result : any = []
+
+  const qry = 
+  `--sql
+  WITH cola_espera AS (
+    SELECT 
+      ROW_NUMBER() OVER (ORDER BY cola_fecha ASC) AS cola_numero,
+      cola_id,
+      cola_neg_id,
+      cola_usr_id,
+      cola_correo,
+      cola_estado,
+      cola_fecha,
+      cola_usr_nombre
+    FROM 
+      tupuestoprod_schema.cola
+    WHERE 
+      cola_estado = 'ESPERA'
+  )
+  SELECT *
+  FROM cola_espera
+  WHERE cola_usr_id = $1;
+  `
+
+  try {
+    const conn : Pool = await getPoolConn();
+    result = await conn.query(qry, [id])
+  } catch (e : any) {
+    console.log(e.message)
+  }
+
+  return result.rows ? result.rows : [];
+
+}
+
 export const getUsuariosByEmail = async (email : string) : Promise<any[]>=> {
     
   let result : any = []

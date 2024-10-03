@@ -34,6 +34,13 @@ mainRouter.get("/usuario/:id",
   userController.getUser
 )
 
+mainRouter.get("/usuario/puesto/:id", 
+  [
+
+  ],
+  userController.getUserPuesto
+)
+
 mainRouter.post("/usuario", 
   [
 
@@ -68,6 +75,13 @@ mainRouter.get("/cola/:id",
 
   ],
   colaController.getCola
+)
+
+mainRouter.get("/cola/estado/espera", 
+  [
+
+  ],
+  colaController.getEnEspera
 )
 
 mainRouter.post("/cola", 
