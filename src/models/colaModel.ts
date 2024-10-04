@@ -162,3 +162,25 @@ export const deleteCola = async (id : number) => {
     return result.rowCount ? result.rowCount : 0;
 
 }
+
+export const darDeBaja = async (id : number) => {
+
+  let result : any = 0
+
+    const qry = 
+    `--sql
+    UPDATE tupuestoprod_schema.cola
+    SET cola_estado = 'TERMINADO'
+    WHERE cola_id = $1;
+    `
+
+    try {
+      const conn : Pool = await getPoolConn();
+      result = await conn.query(qry, [id])
+    } catch (e : any) {
+      console.log(e.message)
+    }
+
+    return result.rowCount ? result.rowCount : 0;
+
+}

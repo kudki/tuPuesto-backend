@@ -134,3 +134,22 @@ export const delCola = async (req: Request, res: Response) => {
     })
   }
 }
+
+export const darDeBaja = async (req: Request, res: Response) => {
+  try {
+
+    const id = +(req.params["id"]);
+
+    const result: any = await colaModel.darDeBaja(id);
+
+    if (result === 1) return res.status(200).send({ status: true, message: "Registro actualizado" });
+    else return res.status(200).send({ status: false, message: "Error al borrar actualizar registro" });
+
+  } catch (e: any) {
+    console.error(e);
+    return res.status(500).send({
+      status: false,
+      message: "Error Interno"
+    })
+  }
+}

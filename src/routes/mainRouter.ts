@@ -98,6 +98,13 @@ mainRouter.put("/cola",
   colaController.putCola
 )
 
+mainRouter.put("/cola/baja/:id", 
+  [
+
+  ],
+  colaController.darDeBaja
+)
+
 mainRouter.delete("/cola/:id", 
   [
 
