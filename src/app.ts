@@ -29,7 +29,7 @@ const app = async () => {
    */
 
   app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
-  app.use(cors(corsOptions));
+  //app.use(cors(corsOptions));
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
 
