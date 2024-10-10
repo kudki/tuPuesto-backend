@@ -1,2 +1,2 @@
 # tuPuesto-backend
-Backend del proyecto tu puesto
+Backend del proyecto TuPuesto.cl
